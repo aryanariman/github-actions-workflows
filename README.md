@@ -41,6 +41,9 @@ on:
 
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     uses: aryanariman/github-actions-workflows/.github/workflows/python-build-release.yml@main
@@ -66,8 +69,6 @@ with:
 
 Each file will be compiled into its own `.exe`.
 
-For example:
-
 ```text
 main.py        → main.exe
 Tool.py        → Tool.exe
@@ -78,7 +79,30 @@ AnotherTool.py → AnotherTool.exe
 
 ## Requirements
 
-The Python files should be compatible with the selected Python version.
+### Repository Permissions
+
+The repository using this workflow must allow GitHub Actions to have **Read and write permissions**.
+
+Go to:
+
+**Settings → Actions → General → Workflow permissions**
+
+and select:
+
+**Read and write permissions**
+
+The workflow must also include:
+
+```yaml
+permissions:
+  contents: write
+```
+
+This is required because the workflow creates GitHub Releases and uploads the generated `.exe` files.
+
+---
+
+### Python Dependencies
 
 If your project has a `requirements.txt` file, specify it like this:
 
@@ -153,6 +177,9 @@ on:
 
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     uses: aryanariman/github-actions-workflows/.github/workflows/python-build-release.yml@main
@@ -167,7 +194,7 @@ jobs:
 
 That's it.
 
-The actual build process is maintained in this repository, so individual projects only need a small workflow file.
+The actual build and release process is maintained in this repository, so individual projects only need a small workflow file.
 
 ---
 
